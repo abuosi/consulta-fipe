@@ -1,0 +1,6 @@
+<p>busca-marcas works!</p>
+<label>Selecione a Marca do Veículo</label>
+<select (change)="trocaMarca($event.target.value)">
+    <option value="">Selecione</option>
+    <option [value]="marca.id" *ngFor="let marca of marcas" >{{ marca.nome }}</option>
+</select>

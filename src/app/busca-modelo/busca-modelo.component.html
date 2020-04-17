@@ -1,0 +1,8 @@
+<p>busca-modelo works!</p>
+<label>Selecione o Modelos do Veículo</label>
+<select (change)="trocaModelo($event.target.value)" [disabled]="!this.fipeService.modeloSelecionado">
+    <option value="">Selecione</option>
+    <option *ngIf="this.fipeService.modeloSelecionado" value="">Selecione</option>
+    <option *ngIf="!this.fipeService.modeloSelecionado" value="">...</option>
+    <option [value]="modelo.id" *ngFor="let modelo of modelos" >{{ modelo.nome }}</option>
+</select>
