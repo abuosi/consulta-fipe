@@ -24,12 +24,6 @@ export class BuscaMarcasComponent implements OnInit {
     try {
       this.carregando = true;
       this.marcas = await this.fipeService.buscaMarcas().toPromise();
-
-      // Exibe Marcas no Console
-      console.log(`Lista de Marcas`);
-      console.log(`---------------`);
-      console.table(this.marcas);
-
     } catch (error) {
       console.log(error);
     } finally {

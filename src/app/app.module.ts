@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { BuscaMarcasComponent } from './busca-marcas/busca-marcas.component';
 import { BuscaModeloComponent } from './busca-modelo/busca-modelo.component';
+import { BuscaAnomodeloComponent } from './busca-anomodelo/busca-anomodelo.component';
 // import { BuscaAnoModeloComponent } from './busca-ano-modelo/busca-ano-modelo.component';
 // import { InformacaoComponent } from './informacao/informacao.component';
 
@@ -13,7 +14,8 @@ import { BuscaModeloComponent } from './busca-modelo/busca-modelo.component';
   declarations: [
     AppComponent,
     BuscaMarcasComponent,
-    BuscaModeloComponent
+    BuscaModeloComponent,
+    BuscaAnomodeloComponent
 //    BuscaAnoModeloComponent,
 //    InformacaoComponent
   ],

@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Marca } from '../models/marca';
 import { Modelo } from '../models/modelo';
+import { AnoModelo } from '../models/ano-modelo';
 
 @Injectable({ providedIn: 'root' })
 export class FipeService {
 
-  private marcaId:number = 0;
-  private modeloId: number = 0;
+
+  public marcaId = new BehaviorSubject<number>(0);
+  public modeloId = new BehaviorSubject<number>(0);
+  public anoModeloId = new BehaviorSubject<number>(0);
 
   public marcaSelecionada: boolean = false;
   public modeloSelecionado: boolean = false;
@@ -17,12 +21,10 @@ export class FipeService {
 
   constructor( private httpClient: HttpClient ) { }
 
-  mudaMarcaSelecionada(modeloId: number) {
-    this.marcaId = modeloId;
-  }
-
-  mudaModeloSelecionado(marcaId: number) {
-    this.modeloId = marcaId;
+  // Marcas
+  
+  mudaMarcaSelecionada(marcaId: number) {
+    this.marcaId.next(marcaId);
   }
 
   buscaMarcas(): Observable<Marca[]> {
@@ -42,21 +44,59 @@ export class FipeService {
 
   }
 
+  // Modelos
+  
+  mudaModeloSelecionado(modeloId: number) {
+    this.modeloId.next(modeloId);
+  }
+
   buscaModelos(): Observable<Modelo[]> {
   
     try {
 
-      console.log(`MarcaID Selecionada: ${this.marcaId.toString()}`);
+      console.log(`MarcaID Selecionada: ${this.marcaId.value}`);
 
-       if (this.marcaId == 0) {
+       if (this.marcaId.value == 0) {
         return of([]);
       }
 
-      return this.httpClient.get<Marca[]>(`https://parallelum.com.br/fipe/api/v1/carros/marcas/${this.modeloId.toString()}/modelos`);
+      return this.httpClient.get<Modelo[]>(`https://parallelum.com.br/fipe/api/v1/carros/marcas/${this.marcaId.value}/modelos`)
+        .pipe( map(p => p['modelos'].map(modelo => new Modelo(modelo['codigo'], modelo['nome']))));
     } catch (error) {
       console.log(error);
     } finally {
       this.modeloSelecionado = true;
+    }
+
+  }
+
+  // ano-modelo
+
+  mudaAnoModeloSelecionado(anoModeloId: number) {
+    this.anoModeloId.next(anoModeloId);
+  }
+
+  buscaAnoModelo(): Observable<AnoModelo[]> {
+  
+    try {
+
+      console.log(`ModeloID Selecionada: ${this.modeloId.value}`);
+
+      if (this.modeloId.value == 0) {
+        return of([]);
+      }
+
+      return this.httpClient.get<AnoModelo[]>(`https://parallelum.com.br/fipe/api/v1/carros/marcas/${this.marcaId.value}/modelos/${this.modeloId.value}/anos`);
+//        .pipe( map(p => p['anoModelos'].map(anoModelo => new AnoModelo(anoModelo['codigo'], anoModelo['nome']))));
+    
+    } catch (error) {
+
+      console.log(error);
+
+    } finally {
+
+      this.anoModeloSelecionado = true;
+
     }
 
   }

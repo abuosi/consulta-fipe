@@ -1,0 +1,6 @@
+<label>Selecione o ano</label>
+<select (change)="trocaAnoModelo($event.target.value)" [disabled]="!this.fipeService.anoModeloSelecionado">
+    <option *ngIf="this.fipeService.anoModeloSelecionado" value="">Selecione</option>
+    <option *ngIf="!this.fipeService.anoModeloSelecionado" value="">...</option>
+    <option [value]="anoModelo.id" *ngFor="let anoModelo of anoModelos" >{{ anoModelo.nome }}</option>
+</select>
