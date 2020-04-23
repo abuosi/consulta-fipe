@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { Marca } from '../models/marca';
 import { Modelo } from '../models/modelo';
 import { AnoModelo } from '../models/ano-modelo';
+import { InformacaoCarro } from '../models/informacao-carro';
 
 @Injectable({ providedIn: 'root' })
 export class FipeService {
@@ -18,6 +19,7 @@ export class FipeService {
   public marcaSelecionada: boolean = false;
   public modeloSelecionado: boolean = false;
   public anoModeloSelecionado: boolean = false;
+  public carroInformacaoselecionado: boolean = false;
 
   constructor( private httpClient: HttpClient ) { }
 
@@ -87,7 +89,6 @@ export class FipeService {
       }
 
       return this.httpClient.get<AnoModelo[]>(`https://parallelum.com.br/fipe/api/v1/carros/marcas/${this.marcaId.value}/modelos/${this.modeloId.value}/anos`);
-//        .pipe( map(p => p['anoModelos'].map(anoModelo => new AnoModelo(anoModelo['codigo'], anoModelo['nome']))));
     
     } catch (error) {
 
@@ -100,5 +101,33 @@ export class FipeService {
     }
 
   }
+
+  buscaInformacao(): Observable<InformacaoCarro> {
+    this.carroInformacaoselecionado = false;
+
+    if (this.anoModeloId.value == 0) {
+      return of(null);
+    }
+
+    return this.http.get<InformacaoCarro>(`https://parallelum.com.br/fipe/api/v1/carros/marcas/${this.marcaId.value}/modelos/${this.modeloId.value}/anos/${this.anoModeloId.value}`)
+      .pipe(
+        map(p => new InformacaoCarro(
+          p["Valor"],
+          p["Marca"],
+          p["Modelo"],
+          p["AnoModelo"],
+          p["Combustivel"],
+          p["CodigoFipe"],
+          p["MesReferencia"],
+          p["TipoVeiculo"],
+          p["SiglaCombustivel"]
+        )),
+        tap(p => this.carroInformacaoselecionado = true),
+        catchError((e) => {
+          console.log(e);
+          return throwError
+        })
+      );
+  } 
 
 }
