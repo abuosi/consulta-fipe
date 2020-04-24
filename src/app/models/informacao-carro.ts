@@ -1,5 +1,5 @@
 export class InformacaoCarro {
-    constructor( public carroid: string, 
+    constructor( public preco: string, 
                  public marca: string,
                  public modelo: string, 
                  public anoModelo: number,

@@ -19,7 +19,7 @@ export class FipeService {
   public marcaSelecionada: boolean = false;
   public modeloSelecionado: boolean = false;
   public anoModeloSelecionado: boolean = false;
-  public carroInformacaoselecionado: boolean = false;
+  public carroInformacaoSelecionado: boolean = false;
 
   constructor( private httpClient: HttpClient ) { }
 
@@ -56,8 +56,6 @@ export class FipeService {
   
     try {
 
-      console.log(`MarcaID Selecionada: ${this.marcaId.value}`);
-
        if (this.marcaId.value == 0) {
         return of([]);
       }
@@ -76,13 +74,12 @@ export class FipeService {
 
   mudaAnoModeloSelecionado(anoModeloId: number) {
     this.anoModeloId.next(anoModeloId);
+    console.log('ano modelo selecionado:'+this.anoModeloId.value);
   }
 
   buscaAnoModelo(): Observable<AnoModelo[]> {
   
     try {
-
-      console.log(`ModeloID Selecionada: ${this.modeloId.value}`);
 
       if (this.modeloId.value == 0) {
         return of([]);
@@ -102,14 +99,33 @@ export class FipeService {
 
   }
 
+  // Informação do Veículo 
+
   buscaInformacao(): Observable<InformacaoCarro> {
-    this.carroInformacaoselecionado = false;
+
+  try {
+    this.carroInformacaoSelecionado = false;
+
+    console.log(`AnoModeloID Selecionada: ${this.anoModeloId.value}`);
 
     if (this.anoModeloId.value == 0) {
       return of(null);
     }
+    
+    return this.httpClient.get<InformacaoCarro>(`https://parallelum.com.br/fipe/api/v1/carros/marcas/${this.marcaId.value}/modelos/${this.modeloId.value}/anos/${this.anoModeloId.value}`)
 
-    return this.http.get<InformacaoCarro>(`https://parallelum.com.br/fipe/api/v1/carros/marcas/${this.marcaId.value}/modelos/${this.modeloId.value}/anos/${this.anoModeloId.value}`)
+  } catch (error) {
+
+    console.log(error);
+
+  } finally {
+
+    this.carroInformacaoSelecionado = true;
+
+  }
+
+
+    /** 
       .pipe(
         map(p => new InformacaoCarro(
           p["Valor"],
@@ -128,6 +144,7 @@ export class FipeService {
           return throwError
         })
       );
+*/
   } 
 
 }

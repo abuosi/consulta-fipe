@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { InformacaoCarro } from '../models/informacao-carro';
+import { FipeService } from '../services/fipe.service';
 
 @Component({
   selector: 'app-informacao',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InformacaoComponent implements OnInit {
 
-  constructor() { }
+  public informacao: InformacaoCarro;
+  
+  constructor( /** public fipeService: FipeService */ ) { }
 
   ngOnInit(): void {
+/**
+    try {
+      this.fipeService.anoModeloId.subscribe({
+        next: (anoModeloId) => this.fipeService.buscaInformacao().subscribe(response => console.log(response))
+      });
+    } catch (error) {
+      console.log(error);
+    }
+*/
   }
 
 }

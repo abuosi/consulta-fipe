@@ -1,4 +1,4 @@
 export class AnoModelo {
-    constructor( public id: number,
+    constructor( public codigo: number,
                  public nome: string, ) {}    
 }
