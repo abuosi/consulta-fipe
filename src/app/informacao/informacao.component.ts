@@ -11,18 +11,18 @@ export class InformacaoComponent implements OnInit {
 
   public informacao: InformacaoCarro;
   
-  constructor( /** public fipeService: FipeService */ ) { }
+  constructor( public fipeService: FipeService ) { }
 
   ngOnInit(): void {
-/**
+
     try {
       this.fipeService.anoModeloId.subscribe({
-        next: (anoModeloId) => this.fipeService.buscaInformacao().subscribe(response => console.log(response))
+        next: (anoModeloId) => this.fipeService.buscaInformacao().subscribe(response => this.informacao = response)
       });
     } catch (error) {
       console.log(error);
     }
-*/
+
   }
 
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, BehaviorSubject, throwError } from 'rxjs';
+import { map, tap, catchError } from 'rxjs/operators';
 
 import { Marca } from '../models/marca';
 import { Modelo } from '../models/modelo';
@@ -74,7 +74,6 @@ export class FipeService {
 
   mudaAnoModeloSelecionado(anoModeloId: number) {
     this.anoModeloId.next(anoModeloId);
-    console.log('ano modelo selecionado:'+this.anoModeloId.value);
   }
 
   buscaAnoModelo(): Observable<AnoModelo[]> {
@@ -103,48 +102,31 @@ export class FipeService {
 
   buscaInformacao(): Observable<InformacaoCarro> {
 
-  try {
     this.carroInformacaoSelecionado = false;
-
-    console.log(`AnoModeloID Selecionada: ${this.anoModeloId.value}`);
 
     if (this.anoModeloId.value == 0) {
       return of(null);
     }
     
     return this.httpClient.get<InformacaoCarro>(`https://parallelum.com.br/fipe/api/v1/carros/marcas/${this.marcaId.value}/modelos/${this.modeloId.value}/anos/${this.anoModeloId.value}`)
-
-  } catch (error) {
-
-    console.log(error);
-
-  } finally {
-
-    this.carroInformacaoSelecionado = true;
-
-  }
-
-
-    /** 
-      .pipe(
-        map(p => new InformacaoCarro(
-          p["Valor"],
-          p["Marca"],
-          p["Modelo"],
-          p["AnoModelo"],
-          p["Combustivel"],
-          p["CodigoFipe"],
-          p["MesReferencia"],
-          p["TipoVeiculo"],
-          p["SiglaCombustivel"]
-        )),
-        tap(p => this.carroInformacaoselecionado = true),
-        catchError((e) => {
-          console.log(e);
-          return throwError
-        })
-      );
-*/
+    .pipe(
+      map(p => new InformacaoCarro(
+                      p["Valor"],
+                      p["Marca"],
+                      p["Modelo"],
+                      p["AnoModelo"],
+                      p["Combustivel"],
+                      p["CodigoFipe"],
+                      p["MesReferencia"],
+                      p["TipoVeiculo"],
+                      p["SiglaCombustivel"]
+                    )),
+      tap(p => this.carroInformacaoSelecionado = true),
+      catchError((e) => {
+        console.log(e);
+        return throwError
+      })
+    );
   } 
 
 }

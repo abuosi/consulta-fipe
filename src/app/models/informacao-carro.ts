@@ -7,7 +7,7 @@ export class InformacaoCarro {
                  public fipeId: string,
                  public mesReferencia: string,
                  public tipoCarro: number, 
-                 public combustivelId: string
+                 public combustivelId: string,
 
     ) { }
 }
