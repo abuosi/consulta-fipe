@@ -7,6 +7,7 @@ import { BuscaMarcasComponent } from './busca-marcas/busca-marcas.component';
 import { BuscaModeloComponent } from './busca-modelo/busca-modelo.component';
 import { BuscaAnomodeloComponent } from './busca-anomodelo/busca-anomodelo.component';
 import { InformacaoComponent } from './informacao/informacao.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { InformacaoComponent } from './informacao/informacao.component';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
