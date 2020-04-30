@@ -1,10 +1,16 @@
-<p>informacao works!</p>
-
-<div *ngIf="this.fipeService.carroInformacaoSelecionado">
-    <div>
-        <h3> <small>{{ informacao.marca }}</small></h3>
-        <p>Ano: {{ informacao.anoModelo }} <br>Combustível: {{ informacao.combustivel }} <br>Código FIPE: {{ informacao.fipeId }}</p>
-        <h5>{{ informacao.preco }} <small>Referencia:{{ informacao.mesReferencia }}</small></h5>
-    </div>
-</div>
+<mat-card class="example-card" *ngIf="this.fipeService.carroInformacaoSelecionado">
+    <mat-card-header >
+        <mat-card-title >Informações</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <h3> {{ informacao.marca }} </h3>
+        <p>
+            Ano: {{ informacao.anoModelo }} <br> Combustível: {{ informacao.combustivel }} <br> Código FIPE: {{ informacao.fipeId }}
+        </p>
+        <h3> {{ informacao.preco }} <small> Referencia:{{ informacao.mesReferencia }} </small> </h3>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>Nova Consulta</button>
+    </mat-card-actions>
+  </mat-card>
 

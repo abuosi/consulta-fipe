@@ -17,6 +17,7 @@ export class BuscaMarcasComponent implements OnInit {
 
   trocaMarca(el): void {
     this.fipeService.mudaMarcaSelecionada(el);
+    console.log(el);
   }
 
   async atualizar() {

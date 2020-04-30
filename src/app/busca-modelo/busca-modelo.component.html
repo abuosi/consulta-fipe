@@ -1,4 +1,5 @@
-<p>busca-modelo works!</p>
+<!--
+    <p>busca-modelo works!</p>
 <label>Selecione o Modelos do Veículo</label>
 <select (change)="trocaModelo($event.target.value)" [disabled]="!this.fipeService.modeloSelecionado">
     <option value="">Selecione</option>
@@ -6,3 +7,14 @@
     <option *ngIf="!this.fipeService.modeloSelecionado" value="">...</option>
     <option [value]="modelo.id" *ngFor="let modelo of modelos" >{{ modelo.nome }}</option>
 </select>
+<p></p>
+-->
+
+<mat-form-field>
+    <mat-label>Selecione o Modelo</mat-label>
+    <mat-select (selectionChange)="trocaModelo($event.value)" [disabled]="!this.fipeService.modeloSelecionado">
+        <mat-option *ngFor="let modelo of modelos" [value]="modelo.id">
+            {{ modelo.nome }}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
